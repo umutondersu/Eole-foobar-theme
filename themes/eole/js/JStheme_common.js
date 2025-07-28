@@ -819,100 +819,26 @@ function fb_play_from_playing(offset){
 }
 
 // Tooltips ---------------------------------------------------------------
+// Tooltip stub – completely disables tooltips while preserving the public API
 oTooltip = function (varName) {
-	this.tooltip  = window.CreateTooltip();
-	this.tooltip.TrackActivate = true;
+	this.tooltip = null;
 	this.showTimer = false;
 	this.activated = false;
-	this.toolTipText = false;
+	this.toolTipText = '';
 	this.varName = varName;
 	this.followMouse = false;
 	this.x = -1;
 	this.y = -1;
 	this.activeZone = '';
-	this.setText = function (new_text) {
-		this.tooltip.Text = new_text;
-	};
-	this.getText = function () {
-		return this.tooltip.Text;
-	}
-	this.getActiveZone = function () {
-		return this.activeZone;
-	}
-    this.ActivateDelay = function(new_text, x, y, delay, maxWith, followMouse, activeZone) {
-		this.activeZone = activeZone;
-		if((!this.showTimer && !this.activated) || new_text!=this.tooltip.Text){
-			this.offset_x = x - g_cursor.x;
-			this.offset_y = y - g_cursor.y;
-			followMouse = typeof followMouse !== 'undefined' ? followMouse : false;
-			maxWith = typeof maxWith !== 'undefined' ? maxWith : 0;
-			this.showTimer && clearTimeout(this.showTimer);
-			this.showTimer = setTimeout(function (activeTooltip) {
-				activeTooltip.Activate(new_text, g_cursor.x + activeTooltip.offset_x, g_cursor.y + activeTooltip.offset_y, maxWith, followMouse, activeZone);
-				window.ClearInterval(this.showTimer);
-				activeTooltip.showTimer = false;
-			}, delay, this);
-		}
-    };
-    this.Activate = function(new_text, x, y, maxWith, followMouse, activeZone) {
-		maxWith = typeof maxWith !== 'undefined' ? maxWith : 0;
-		this.activeZone = activeZone;
-		this.followMouse = typeof followMouse !== 'undefined' ? followMouse : false;
-		if(x != this.x || y != this.y){
-			this.tooltip.TrackActivate = true;
-			this.tooltip.TrackPosition(x, y);
-		}
-		if(this.tooltip.Text != new_text || !this.activated){
-			this.offset_x = x - g_cursor.x;
-			this.offset_y = y - g_cursor.y;
-			if(maxWith>0) this.tooltip.SetMaxWidth(maxWith);
-			this.tooltip.Text = new_text;
-			this.tooltip.Activate();
-			this.activated = true;
-		}
-		if(x != this.x || y != this.y){
-			this.tooltip.TrackActivate = true;
-			this.tooltip.TrackPosition(x, y);
-		}
-		this.x = x;
-		this.y = y;
-    };
-    this.Deactivate = function() {
-		this.activeZone = '';
-		this.followMouse = false;
-		if(this.activated){
-			this.tooltip.Deactivate();
-			this.activated = false;
-			clearTimeout(this.showTimer);
-			this.showTimer = false;
-		} else if(this.showTimer)	{
-			clearTimeout(this.showTimer);
-			this.showTimer = false;
-		}
-		this.x = -1;
-		this.y = -1;
-    };
-    this.onMouse = function (state, x, y, m) {
-		switch(state){
-			case 'lbtn_down':
-			break;
-			case 'lbtn_up':
-			break;
-			case 'dble_click':
-			break;
-			case 'move':
-				if(this.followMouse && (x != this.x || y != this.y)){
-					this.tooltip.TrackPosition(x+this.offset_x, y+this.offset_y);
-					this.x = x;
-					this.y = y;
-				}
-			break;
-			case 'leave':
-				this.Deactivate();
-			break;
-		}
-    }
+	this.setText = function () {};
+	this.getText = function () { return ''; };
+	this.getActiveZone = function () { return this.activeZone; };
+	this.ActivateDelay = function () {};
+	this.Activate = function () {};
+	this.Deactivate = function () {};
+	this.onMouse = function () {};
 };
+
 
 
 //UI hacks ----------------------------------------------------------------
